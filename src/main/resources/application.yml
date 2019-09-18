@@ -2,3 +2,8 @@ server:
     port: 8010
     servlet:
       context-path: /json
+
+
+swagger:
+    enabled:  true
+

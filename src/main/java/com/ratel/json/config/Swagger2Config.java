@@ -1,6 +1,7 @@
 package com.ratel.json.config;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -28,10 +29,20 @@ import static com.google.common.collect.Lists.newArrayList;
 @Configuration
 @EnableSwagger2
 public class Swagger2Config {
+
+
+    /**
+     * 是否开启swagger，正式环境一般是需要关闭的 ，使用@value注解从application.yml中获取属性
+     */
+    @Value("${swagger.enabled}")
+    private boolean enableSwagger;
     @Bean
     public Docket createRestApi() {
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
+                //是否开启 (true 开启  false隐藏。生产环境建议隐藏)
+                .enable(enableSwagger)
                 .select()
                 //加了ApiOperation注解的类，才生成接口文档
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))

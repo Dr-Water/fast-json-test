@@ -5,11 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ratel.json.entity.User;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -56,7 +55,23 @@ public class UserController {
         return true;
     }
 
+    @ApiOperation("保存用户")
+    @PostMapping("/saveUser")
+    public boolean saveUser(@RequestBody User user){
+        System.out.println(user);
+        return  true;
+    }
 
+    @ApiOperation(value = "获取用户", notes = "根据输入的用户名和密码获取用户")
+    @GetMapping("/getUser")
+    @ApiImplicitParams({
+                            //name的值和方法请求参数的名字一样否则在swagger中会出现多个参数
+            @ApiImplicitParam(name = "userName", value = "用户名啊", required = true, dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "用户密码啊", required = false, dataType = "String", paramType = "query")
+    })
+    public User getUser(@RequestParam String userName,@RequestParam String password){
+       return  new User(userName,password);
+    }
     /**
      * 将list类型的json字符串转为list
      *
