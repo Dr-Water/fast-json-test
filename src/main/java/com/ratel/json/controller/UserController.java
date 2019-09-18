@@ -30,19 +30,23 @@ public class UserController {
     @ApiOperation("保存")
     @PostMapping("/save")
     public  boolean save(@RequestBody String jsonString){
+        //方法一
+        //将前端传过来的json字符串转换为map
         Map map = JSONObject.parseObject(jsonString, Map.class);
         System.out.println(map);
+        //获取前端传过来的第一个list
         String list1 = map.get("list1").toString();
         List<User> objects = JSON.parseArray(list1,User.class);
         for (User object : objects) {
             System.out.println(object);
         }
+        //获取前端传过来的第二个list
         String list2 = map.get("list2").toString();
         List<User> objects1 = JSON.parseArray(list2,User.class);
         for (User object : objects1) {
             System.out.println(object);
         }
-
+        //方法二
         System.out.println("=========================");
         Map map1 = JSON.parseObject(jsonString, Map.class);
         System.out.println(map1);
