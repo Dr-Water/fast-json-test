@@ -25,10 +25,10 @@ import static com.google.common.collect.Lists.newArrayList;
  * @create_time： 2019-09-17 17:27
  * @copyright (c) ratelfu 版权所有
  */
-//为了测试分组api将此配置类先注释掉
-//@Configuration
-//@EnableSwagger2
-public class Swagger2Config {
+
+@Configuration
+@EnableSwagger2
+public class Swagger2GroupConfig {
 
 
     /**
@@ -37,9 +37,10 @@ public class Swagger2Config {
     @Value("${swagger.enabled}")
     private boolean enableSwagger;
     @Bean
-    public Docket createRestApi() {
+    public Docket createRestApiGroup1() {
 
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("apiGroup1")
                 .apiInfo(apiInfo())
                 //是否开启 (true 开启  false隐藏。生产环境建议隐藏)
                 .enable(enableSwagger)
@@ -48,7 +49,25 @@ public class Swagger2Config {
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 //包下的类，才生成接口文档
                 //.apis(RequestHandlerSelectors.basePackage("com.ratel.controller"))
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.ant("/user/**"))
+                .build()
+                .securitySchemes(security());
+    }
+
+    @Bean
+    public Docket createRestApiGroup2() {
+
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("apiGroup2")
+                .apiInfo(apiInfo())
+                //是否开启 (true 开启  false隐藏。生产环境建议隐藏)
+                .enable(enableSwagger)
+                .select()
+                //加了ApiOperation注解的类，才生成接口文档
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                //包下的类，才生成接口文档
+                //.apis(RequestHandlerSelectors.basePackage("com.ratel.controller"))
+                .paths(PathSelectors.ant("/shop/**"))
                 .build()
                 .securitySchemes(security());
     }
