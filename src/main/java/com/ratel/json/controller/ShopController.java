@@ -42,6 +42,15 @@ public class ShopController {
         return "商品id为："+shopId+"的商品名称为："+shopName;
     }
 
-
+    @PostMapping("getShop2/{shopId}/{shopName}")
+    @ApiOperation("根据商品id和商品名称获取商品")
+    @ApiImplicitParams({
+            //name的值和方法请求参数的名字一样否则在swagger中会出现多个参数
+            @ApiImplicitParam(name = "shopId", value = "商品id", required = true, dataType = "String", paramType = "path"),
+            @ApiImplicitParam(name = "shopName", value = "商品名称", required = true, dataType = "String", paramType = "path")
+    })
+    public String getShop3(@PathVariable String shopId, @PathVariable String shopName){
+        return "商品id为："+shopId+"的商品名称为："+shopName;
+    }
 
 }
